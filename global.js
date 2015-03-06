@@ -16,6 +16,12 @@ function handleMessage(event) {
 		case "setBlockList":
 			setBlockList(event);
 			break;
+		case "addEntryToBlockList":
+			//alert("Added :" + event.message);
+			var blockList = localStorage.getItem("blockList")
+			blockList += "\n" + event.message
+			localStorage.setItem("blockList", blockList)
+			break;
 		default:
 			alert("unknown event.name: ", event.name);
 	}
@@ -27,7 +33,6 @@ function handleCommand(event)
 	{
 		var newTab = safari.application.activeBrowserWindow.openTab();
 		newTab.url = safari.extension.baseURI + "preferences.html";
-		
 	}
 }
 

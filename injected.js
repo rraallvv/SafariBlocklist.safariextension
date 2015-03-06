@@ -47,6 +47,7 @@ function clearTimers()
 function go()
 {
 	safari.self.tab.dispatchMessage("getBlockList");
+	addBlockLinks()
 }
 
 function handleMessage(event)
@@ -82,4 +83,27 @@ function filterWithBlockList(blockList)
 			}
 		}
 	}
+}
+
+function addBlockLinks()
+{
+	var entries = getMainEntries(document);
+	var n = entries.length;
+	for (var i = 0; i < n; i++)
+	{
+		var entry = entries.item(i);
+		var a = document.createElement('a');
+		var linkText = document.createTextNode("Block");
+		a.appendChild(linkText);
+		a.title = "Block";
+		a.onclick = function () { block(this); };
+		a.href = "#";
+		entry.appendChild(a);
+	}
+}
+
+function block(element) {
+	var hostname = element.parentNode.getElementsByTagName("a").item(0).hostname;
+	safari.self.tab.dispatchMessage("addEntryToBlockList", hostname);
+	safari.self.tab.dispatchMessage("getBlockList");
 }
