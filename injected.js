@@ -74,6 +74,7 @@ function filterWithBlockList(blockList)
 	for (var i = 0; i < n; i++)
 	{
 		var entry = entries.item(i);
+        // Hide blocked entries
 		var linkURL = entry.getElementsByTagName("a").item(0).getAttribute("href");
 		for (var iBlockURL = 0; iBlockURL < nBlockURLs; iBlockURL++)
 		{
@@ -82,6 +83,13 @@ function filterWithBlockList(blockList)
 				entry.className += " " + kFilterClassName;
 			}
 		}
+        // Hide entries with missing tags
+        var spanTag = entry.getElementsByTagName("span");
+        spanTag = spanTag.item(spanTag.length - 1);
+        if (spanTag.innerHTML == "Missing:")
+        {
+            entry.className += " " + kFilterClassName;
+        }
 	}
 }
 
